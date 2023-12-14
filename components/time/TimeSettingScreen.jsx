@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import Styles from "./TimeSettingScreenStyle";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 const TimeSettingScreen = () => {
     const [SelectedHour, SetSelectedHour] = useState(0)
     const [SelectedMinute, SetSelectedMinute] = useState(0)
