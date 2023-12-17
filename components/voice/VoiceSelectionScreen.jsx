@@ -29,18 +29,18 @@ const VoiceSelectionScreen = () => {
                 style={Styles.ScreenTitleContainer}
             >
                 <Text
-                    style={Styles.FirstScreenTitlePart}
+                    style={Styles.ScreenTitle}
                 >Which voice you</Text>
                 <View
                     style={Styles.SecondScreenTitlePartContainer}
                 >
                     <Text
-                        style={Styles.SecondScreenTitlePart}>want </Text>
+                        style={Styles.ScreenTitle}>want </Text>
                     <Text
-                        style={Styles.SpecialSecondScreenTitlePart}
+                        style={Styles.SpecialScreenTitle}
                     >Waki </Text>
                     <Text
-                        style={Styles.SecondScreenTitlePart}>to be?</Text>
+                        style={Styles.ScreenTitle}>to be?</Text>
                 </View>
             </View>
             <FlatList

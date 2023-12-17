@@ -26,7 +26,7 @@ const Styles = StyleSheet.create({
     ScreenTitleContainer: {
         marginTop: 100
     },
-    FirstScreenTitlePart: {
+    ScreenTitle: {
         color: Colors.White,
         fontFamily: Fonts.SemiBold,
         fontSize: 35,
@@ -40,18 +40,7 @@ const Styles = StyleSheet.create({
     SecondScreenTitlePartContainer: {
         flexDirection: 'row'
     },
-    SecondScreenTitlePart: {
-        color: Colors.White,
-        fontFamily: Fonts.SemiBold,
-        fontSize: 35,
-        textShadowColor: 'rgba(0, 0, 0, 0.25)',
-        textShadowOffset: {
-            height: 2,
-            width: 1
-        },
-        textShadowRadius: 4
-    },
-    SpecialSecondScreenTitlePart: {
+    SpecialScreenTitle: {
         color: Colors.Yellow,
         fontFamily: Fonts.SemiBold,
         fontSize: 35,
