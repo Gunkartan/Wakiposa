@@ -4,6 +4,7 @@ import WelcomeScreen from "../components/welcome/WelcomeScreen";
 import TimeSettingScreen from "../components/time/TimeSettingScreen";
 import VoiceSelectionScreen from "../components/voice/VoiceSelectionScreen";
 import CallIntroductionScreen from "../components/introduction/CallIntroductionScreen";
+import RelationshipSelectionScreen from "../components/relationship/RelationshipSelectionScreen";
 import Styles from "../constants/Styles";
 import TasksIntroductionScreen from "../components/introduction/TasksIntroductionScreen";
 const Home = () => {
@@ -20,7 +21,7 @@ const Home = () => {
                         headerShown: false
                     }}
                 />
-                <TasksIntroductionScreen />
+                <RelationshipSelectionScreen />
             </ImageBackground>
         </SafeAreaView>
     )

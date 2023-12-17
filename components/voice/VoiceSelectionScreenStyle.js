@@ -62,6 +62,7 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         width: 150,
         backgroundColor: SelectedVoice === Item ? Colors.Blue : Colors.White,
+        opacity: SelectedVoice === Item ? 1 : 0.7,
         ...Platform.select({
             ios: {
                 shadowColor: 'rgba(0, 0, 0)',
