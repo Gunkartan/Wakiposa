@@ -1,12 +1,12 @@
 import { Stack } from "expo-router";
 import { SafeAreaView, ImageBackground } from "react-native";
 import WelcomeScreen from "../components/welcome/WelcomeScreen";
+import CallIntroductionScreen from "../components/introduction/CallIntroductionScreen";
+import TasksIntroductionScreen from "../components/introduction/TasksIntroductionScreen";
 import TimeSettingScreen from "../components/time/TimeSettingScreen";
 import VoiceSelectionScreen from "../components/voice/VoiceSelectionScreen";
-import CallIntroductionScreen from "../components/introduction/CallIntroductionScreen";
 import RelationshipSelectionScreen from "../components/relationship/RelationshipSelectionScreen";
 import Styles from "../constants/Styles";
-import TasksIntroductionScreen from "../components/introduction/TasksIntroductionScreen";
 const Home = () => {
     return (
         <SafeAreaView

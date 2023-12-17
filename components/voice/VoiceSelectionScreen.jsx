@@ -57,7 +57,10 @@ const VoiceSelectionScreen = () => {
                         >{item}</Text>
                     </TouchableOpacity>
                 )}
-                contentContainerStyle={{ columnGap: 16 }}
+                contentContainerStyle={{
+                    paddingHorizontal: 15,
+                    columnGap: 16
+                }}
                 keyExtractor={(item) => item}
                 horizontal
             />
