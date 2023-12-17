@@ -5,26 +5,11 @@ const Styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1
     },
-    ProgressIndicatorContainer: {
-        flexDirection: 'row',
-        marginTop: 100
-    },
-    ActiveProgressIndicator: {
-        backgroundColor: Colors.Blue,
-        borderRadius: 25,
-        height: 8,
-        marginHorizontal: 1,
-        width: 84
-    },
-    InactiveProgressIndicator: {
-        backgroundColor: Colors.White,
-        borderRadius: 25,
-        height: 8,
-        marginHorizontal: 1,
-        width: 84
-    },
     ScreenTitleContainer: {
         marginTop: 100
+    },
+    FirstScreenTitlePartContainer: {
+        flexDirection: 'row'
     },
     ScreenTitle: {
         color: Colors.White,
@@ -37,9 +22,6 @@ const Styles = StyleSheet.create({
         },
         textShadowRadius: 4
     },
-    SecondScreenTitlePartContainer: {
-        flexDirection: 'row'
-    },
     SpecialScreenTitle: {
         color: Colors.Yellow,
         fontFamily: Fonts.SemiBold,
@@ -51,34 +33,48 @@ const Styles = StyleSheet.create({
         },
         textShadowRadius: 4
     },
-    VoiceSelectionButtonsContainer: {
-        marginTop: 100
+    WakiImage: {
+        height: 208,
+        width: 243
     },
-    VoiceSelectionButton: (SelectedVoice, Item) => ({
-        alignItems: 'center',
-        borderRadius: 20,
-        elevation: 4,
-        height: 83,
-        justifyContent: 'center',
-        width: 150,
-        backgroundColor: SelectedVoice === Item ? Colors.Blue : Colors.White,
-        ...Platform.select({
-            ios: {
-                shadowColor: 'rgba(0, 0, 0)',
-                shadowOffset: {
-                    height: 2,
-                    width: 1
-                },
-                shadowRadius: 4,
-                shadowOpacity: 0.25
-            }
-        })
-    }),
-    VoiceSelectionText: (SelectedVoice, Item) => ({
+    InCallWithText: {
+        fontFamily: Fonts.Medium,
+        fontSize: 20
+    },
+    RoleText: {
+        fontFamily: Fonts.Bold,
+        fontSize: 30,
+        marginTop: 8
+    },
+    CallDuration: {
         fontFamily: Fonts.Medium,
         fontSize: 20,
-        color: SelectedVoice === Item ? Colors.White : Colors.Black
-    }),
+        marginTop: 8
+    },
+    CallMenuContainer: {
+        flexDirection: 'row',
+        marginTop: 43
+    },
+    WhiteIconContainers: {
+        alignItems: 'center',
+        backgroundColor: Colors.WhiteIconContainer,
+        borderRadius: 100,
+        height: 80,
+        justifyContent: 'center',
+        marginHorizontal: 14,
+        opacity: 0.85,
+        width: 80
+    },
+    RedIconContainer: {
+        alignItems: 'center',
+        backgroundColor: Colors.RedIconContainer,
+        borderRadius: 100,
+        height: 80,
+        justifyContent: 'center',
+        marginHorizontal: 14,
+        opacity: 0.8,
+        width: 80
+    },
     NextButtonContainer: {
         flex: 1,
         justifyContent: 'flex-end'

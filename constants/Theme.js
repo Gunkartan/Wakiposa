@@ -11,6 +11,8 @@ const Colors = {
     LightBlue: "#97F3FF",
     Purple: "#998CEB",
     White: "#FFFFFF",
-    Yellow: "#FFFD8C"
+    Yellow: "#FFFD8C",
+    WhiteIconContainer: "#FBFBFB",
+    RedIconContainer: "#D72665"
 }
 export { Fonts, Colors }
