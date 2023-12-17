@@ -1,4 +1,3 @@
-//A comment
 import { useState } from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import Styles from "./TimeSettingScreenStyle";
