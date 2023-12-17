@@ -2,6 +2,7 @@ import { Stack } from "expo-router";
 import { SafeAreaView, ImageBackground } from "react-native";
 import WelcomeScreen from "../components/welcome/WelcomeScreen";
 import TimeSettingScreen from "../components/time/TimeSettingScreen";
+import VoiceSelectionScreen from "../components/voice/VoiceSelectionScreen";
 import Styles from "../constants/Styles";
 const Home = () => {
     return (
@@ -17,7 +18,7 @@ const Home = () => {
                         headerShown: false
                     }}
                 />
-                <TimeSettingScreen />
+                <VoiceSelectionScreen />
             </ImageBackground>
         </SafeAreaView>
     )
