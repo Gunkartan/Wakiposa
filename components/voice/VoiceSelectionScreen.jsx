@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import Styles from "./VoiceSelectionScreenStyle";
-import { FlatList } from "react-native-gesture-handler";
 const VoiceSelectionScreen = () => {
     const Voice = ["Girly", "Manly"]
     const [SelectedVoice, SetSelectedVoice] = useState("Girly")
@@ -58,7 +57,10 @@ const VoiceSelectionScreen = () => {
                         >{item}</Text>
                     </TouchableOpacity>
                 )}
-                contentContainerStyle={{ columnGap: 16 }}
+                contentContainerStyle={{
+                    paddingHorizontal: 15,
+                    columnGap: 16
+                }}
                 keyExtractor={(item) => item}
                 horizontal
             />

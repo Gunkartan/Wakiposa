@@ -24,12 +24,15 @@ const Styles = StyleSheet.create({
         width: 84
     },
     ScreenTitleContainer: {
+        flex: 3,
+        paddingRight: 15,
         marginTop: 100
     },
     ScreenTitle: {
         color: Colors.White,
         fontFamily: Fonts.SemiBold,
         fontSize: 35,
+        paddingLeft: 15,
         textShadowColor: 'rgba(0, 0, 0, 0.25)',
         textShadowOffset: {
             height: 2,
@@ -37,32 +40,19 @@ const Styles = StyleSheet.create({
         },
         textShadowRadius: 4
     },
-    SecondScreenTitlePartContainer: {
-        flexDirection: 'row'
+    RelationshipSelectionButtonsContainer: {
+        marginTop: 48
     },
-    SpecialScreenTitle: {
-        color: Colors.Yellow,
-        fontFamily: Fonts.SemiBold,
-        fontSize: 35,
-        textShadowColor: 'rgba(0, 0, 0, 0.25)',
-        textShadowOffset: {
-            height: 2,
-            width: 1
-        },
-        textShadowRadius: 4
-    },
-    VoiceSelectionButtonsContainer: {
-        marginTop: 100
-    },
-    VoiceSelectionButton: (SelectedVoice, Item) => ({
+    RelationshipSelectionButtons: (SelectedRelationship, Item) => ({
         alignItems: 'center',
         borderRadius: 20,
         elevation: 4,
-        height: 83,
+        flexDirection: 'row',
+        height: 59,
         justifyContent: 'center',
-        width: 150,
-        backgroundColor: SelectedVoice === Item ? Colors.Blue : Colors.White,
-        opacity: SelectedVoice === Item ? 1 : 0.7,
+        width: 185,
+        backgroundColor: SelectedRelationship === Item ? Colors.Blue : Colors.White,
+        opacity: SelectedRelationship === Item ? 1 : 0.7,
         ...Platform.select({
             ios: {
                 shadowColor: 'rgba(0, 0, 0)',
@@ -75,10 +65,11 @@ const Styles = StyleSheet.create({
             }
         })
     }),
-    VoiceSelectionText: (SelectedVoice, Item) => ({
+    RelationshipSelectionTexts: (SelectedRelationship, Item) => ({
         fontFamily: Fonts.Medium,
         fontSize: 20,
-        color: SelectedVoice === Item ? Colors.White : Colors.Black
+        marginRight: 15,
+        color: SelectedRelationship === Item ? Colors.White : Colors.Black
     }),
     NextButtonContainer: {
         flex: 1,
