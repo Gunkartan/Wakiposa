@@ -5,6 +5,7 @@ import TimeSettingScreen from "../components/time/TimeSettingScreen";
 import VoiceSelectionScreen from "../components/voice/VoiceSelectionScreen";
 import CallIntroductionScreen from "../components/introduction/CallIntroductionScreen";
 import Styles from "../constants/Styles";
+import TasksIntroductionScreen from "../components/introduction/TasksIntroductionScreen";
 const Home = () => {
     return (
         <SafeAreaView
@@ -19,7 +20,7 @@ const Home = () => {
                         headerShown: false
                     }}
                 />
-                <CallIntroductionScreen />
+                <TasksIntroductionScreen />
             </ImageBackground>
         </SafeAreaView>
     )
