@@ -7,6 +7,7 @@ import TimeSettingScreen from "../components/time/TimeSettingScreen";
 import VoiceSelectionScreen from "../components/voice/VoiceSelectionScreen";
 import RelationshipSelectionScreen from "../components/relationship/RelationshipSelectionScreen";
 import FamilyMemberSelectionScreen from "../components/relationship/FamilyMemberSelectionScreen";
+import MissionSelectionScreen from "../components/mission/MissionSelectionScreen";
 import Styles from "../constants/Styles";
 const Home = () => {
     return (
@@ -22,7 +23,7 @@ const Home = () => {
                         headerShown: false
                     }}
                 />
-                <FamilyMemberSelectionScreen />
+                <MissionSelectionScreen />
             </ImageBackground>
         </SafeAreaView>
     )
