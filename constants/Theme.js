@@ -5,11 +5,12 @@ const Fonts = {
     SemiBold: "SemiBoldFont"
 }
 const Colors = {
-    Yellow: "#FFFD8C",
+    Black: "#000000",
+    Blue: "#7091F5",
     Cream: "#FFF7E9",
     LightBlue: "#97F3FF",
-    Blue: "#7091F5",
     Purple: "#998CEB",
-    White: "#FFFFFF"
+    White: "#FFFFFF",
+    Yellow: "#FFFD8C"
 }
 export { Fonts, Colors }
