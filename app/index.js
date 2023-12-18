@@ -8,6 +8,7 @@ import VoiceSelectionScreen from "../components/voice/VoiceSelectionScreen";
 import RelationshipSelectionScreen from "../components/relationship/RelationshipSelectionScreen";
 import FamilyMemberSelectionScreen from "../components/relationship/FamilyMemberSelectionScreen";
 import MissionSelectionScreen from "../components/mission/MissionSelectionScreen";
+import PermissionAskingScreen from "../components/permission/PermissionAskingScreen";
 import Styles from "../constants/Styles";
 const Home = () => {
     return (
@@ -23,7 +24,7 @@ const Home = () => {
                         headerShown: false
                     }}
                 />
-                <MissionSelectionScreen />
+                <PermissionAskingScreen />
             </ImageBackground>
         </SafeAreaView>
     )
