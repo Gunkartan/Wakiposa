@@ -7,7 +7,7 @@ const Styles = StyleSheet.create({
     },
     ProgressIndicatorContainer: {
         flexDirection: 'row',
-        marginTop: 100
+        marginTop: '15%'
     },
     ActiveProgressIndicator: {
         backgroundColor: Colors.Blue,
@@ -19,7 +19,7 @@ const Styles = StyleSheet.create({
     ScreenTitleContainer: {
         flex: 3,
         paddingRight: 15,
-        marginTop: 100
+        marginTop: '25%'
     },
     ScreenTitle: {
         color: Colors.White,
@@ -34,8 +34,7 @@ const Styles = StyleSheet.create({
         textShadowRadius: 4
     },
     MissionSelectionButtonsContainer: {
-        marginTop: 100,
-        paddingLeft: 15
+        marginTop: 48
     },
     MissionSelectionButtons: (SelectedMission, Item) => ({
         alignItems: 'center',

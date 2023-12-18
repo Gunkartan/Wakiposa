@@ -6,7 +6,7 @@ const Styles = StyleSheet.create({
         flex: 1
     },
     ScreenTitleContainer: {
-        marginTop: 100
+        marginTop: '25%'
     },
     ScreenTitle: {
         color: Colors.White,
@@ -21,7 +21,7 @@ const Styles = StyleSheet.create({
     },
     TasksImage: {
         height: 405,
-        marginTop: 100,
+        marginTop: '15%',
         width: 279
     },
     ReadyButtonContainer: {

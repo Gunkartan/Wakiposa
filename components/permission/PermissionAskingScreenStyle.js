@@ -8,7 +8,7 @@ const Styles = StyleSheet.create({
     ScreenTitleContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 100
+        marginTop: '25%'
     },
     ScreenTitle: {
         color: Colors.White,
