@@ -6,7 +6,7 @@ const Styles = StyleSheet.create({
         flex: 1
     },
     ScreenTitleContainer: {
-        marginTop: 100
+        marginTop: '25%'
     },
     FirstScreenTitlePartContainer: {
         flexDirection: 'row'

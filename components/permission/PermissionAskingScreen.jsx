@@ -1,7 +1,12 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import * as NotificationSystem from "expo-notifications";
 import Styles from "./PermissionAskingScreenStyle";
 const PermissionAskingScreen = () => {
+
+    const PermissionAsking = async () => {
+        NotificationSystem.requestPermissionsAsync()
+    }
     return (
         <View
             style={Styles.Container}
@@ -25,6 +30,7 @@ const PermissionAskingScreen = () => {
             </View>
             <TouchableOpacity
                 style={Styles.AllowButton}
+                onPress={PermissionAsking}
             >
                 <Text
                     style={Styles.ButtonsText}

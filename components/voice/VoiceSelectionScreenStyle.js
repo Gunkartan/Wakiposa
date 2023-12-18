@@ -7,7 +7,7 @@ const Styles = StyleSheet.create({
     },
     ProgressIndicatorContainer: {
         flexDirection: 'row',
-        marginTop: 100
+        marginTop: '15%'
     },
     ActiveProgressIndicator: {
         backgroundColor: Colors.Blue,
@@ -24,7 +24,7 @@ const Styles = StyleSheet.create({
         width: 84
     },
     ScreenTitleContainer: {
-        marginTop: 100
+        marginTop: '25%'
     },
     ScreenTitle: {
         color: Colors.White,

@@ -64,7 +64,11 @@ const MissionSelectionScreen = () => {
                             />
                         </TouchableOpacity>
                     )}
-                    contentContainerStyle={{ rowGap: 31 }}
+                    contentContainerStyle={{
+                        flex: 1,
+                        paddingLeft: 15,
+                        rowGap: 31
+                    }}
                     keyExtractor={(item) => item.Id}
                 />
             </View>

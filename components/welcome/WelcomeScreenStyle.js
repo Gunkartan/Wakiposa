@@ -7,7 +7,7 @@ const Styles = StyleSheet.create({
         flex: 1
     },
     WelcomeTitleContainer: {
-        marginTop: 100
+        marginTop: '25%'
     },
     FirstWelcomeTitleLineContainer: {
         alignItems: 'baseline',
