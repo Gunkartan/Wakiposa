@@ -13,6 +13,7 @@ const Colors = {
     White: "#FFFFFF",
     Yellow: "#FFFD8C",
     WhiteIconContainer: "#FBFBFB",
-    RedIconContainer: "#D72665"
+    RedIconContainer: "#D72665",
+    BellIcon: "#C2F8FF"
 }
 export { Fonts, Colors }
