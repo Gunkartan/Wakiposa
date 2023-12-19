@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { View, Text, FlatList, Image, ImageBackground, Switch } from "react-native";
+import { View, Text, FlatList, Image, ImageBackground, Switch, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Styles from "./HomeScreenStyle";
 import { Colors } from "../../constants/Theme";
 const HomeScreen = () => {
     const TargetHour = 8
-    const TargetMinute = 0
+    const TargetMinute = 15
     const [CurrentHour, SetCurrentHour] = useState(new Date().getHours())
     const [CurrentMinute, SetCurrentMinute] = useState(new Date().getMinutes())
     useEffect(() => {
@@ -64,8 +64,27 @@ const HomeScreen = () => {
         EachAlarmMinute: String(AlarmData[Index].Minute).padStart(2, '0'),
         EachRepetition: AlarmData[Index].Repeat,
         EachMission: MissionData[Index].Mission,
-        EachActiveState: ActiveState[Index].State
+        EachActiveState: ActiveState[Index].State,
+        TimeRemaining: CalculateRemainingSleepTime(CurrentHour, CurrentMinute, AlarmData[Index].Hour, AlarmData[Index].Minute)
     }))
+    const FindClosestActiveAlarm = () => {
+        let ClosestAlarm = null
+        CombinedData.forEach((item) => {
+            if (item.EachActiveState) {
+
+                if (!ClosestAlarm || item.TimeRemaining.Hour < ClosestAlarm.TimeRemaining.Hour) {
+                    ClosestAlarm = item
+                } else if (item.TimeRemaining.Hour === ClosestAlarm.TimeRemaining.Hour && item.TimeRemaining.Minute < ClosestAlarm.TimeRemaining.Minute) {
+                    ClosestAlarm = item
+                }
+
+            }
+        })
+        return ClosestAlarm
+    }
+    const ClosestActiveAlarm = FindClosestActiveAlarm()
+    const SleepHoursLeft = ClosestActiveAlarm ? ClosestActiveAlarm.TimeRemaining.Hour : '--'
+    const SleepMinutesLeft = ClosestActiveAlarm ? ClosestActiveAlarm.TimeRemaining.Minute : '--'
     const HandleRepetition = (SelectedDays) => {
         const DaysInAWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
         const IsEveryday = DaysInAWeek.every(Item => SelectedDays.includes(Item))
@@ -89,7 +108,83 @@ const HomeScreen = () => {
             return NewStates
         })
     }
-    const RemainingSleepTime = CombinedData.length > 0 ? CalculateRemainingSleepTime(CurrentHour, CurrentMinute, TargetHour, TargetMinute) : { Hour: '--', Minute: '--' }
+    const RenderItem = ({ item, index }) => {
+        return (
+            <View
+                style={Styles.AlarmContainer}
+            >
+                <View
+                    style={Styles.FirstAlarmPart}
+                >
+                    <LinearGradient
+                        colors={item.EachActiveState ? ['#ECC9C0', '#A9C3E4', '#ACC3E2'] : ['#A8A8A8', '#A8A8A8']}
+                        locations={item.EachActiveState ? [0, 0.9999, 1] : [0, 1]}
+                        start={{
+                            x: 0.5,
+                            y: 0
+                        }}
+                        end={{
+                            x: 0.5,
+                            y: 1
+                        }}
+                        style={Styles.FirstAlarmPartGradient}
+                    >
+                        <Image
+                            source={item.Source}
+                            style={{
+                                transform: [
+                                    { scale: 0.75 }
+                                ]
+                            }}
+                        />
+                        <Ionicons
+                            name="call"
+                            size={24}
+                        />
+                    </LinearGradient>
+                </View>
+                <TouchableOpacity
+                    style={Styles.SecondAlarmPart}
+                >
+                    <ImageBackground
+                        source={item.EachActiveState ? require('../../assets/images/SecondBackground.png') : require('../../assets/images/ThirdBackground.png')}
+                        style={Styles.SecondAlarmPartBackground}
+                    >
+                        <View
+                            style={Styles.SecondAlarmPartContentContainer}
+                        >
+                            <View
+                                style={Styles.SecondAlarmPartTextsContainer}
+                            >
+                                <Text
+                                    style={Styles.RepetitionText}
+                                >{HandleRepetition(item.EachRepetition)}</Text>
+                                <Text
+                                    style={Styles.TimeText}
+                                >{item.EachAlarmHour}:{item.EachAlarmMinute}</Text>
+                                <Text
+                                    style={Styles.MissionText}
+                                >Mission: {item.EachActiveState ? item.EachMission : ''}</Text>
+                            </View>
+                            <View
+                                style={Styles.SecondAlarmPartSwitchContainer}
+                            >
+                                <Switch
+                                    trackColor={{
+                                        false: Colors.OffSwitchTrack,
+                                        true: Colors.Blue
+                                    }}
+                                    thumbColor={item.EachActiveState ? Colors.OnSwitchThumb : Colors.OffSwitchThumb}
+                                    onValueChange={() => ToggleSwitch(index)}
+                                    value={item.EachActiveState}
+                                />
+                            </View>
+                        </View>
+                    </ImageBackground>
+                </TouchableOpacity>
+            </View>
+        )
+    }
     return (
         <LinearGradient
             colors={['#7091F5', '#F4E0D5', '#EDD29C', '#7985C1', '#0B2069']}
@@ -118,13 +213,13 @@ const HomeScreen = () => {
                     >
                         <Text
                             style={Styles.SleepTimeLeftValues}
-                        >{RemainingSleepTime.Hour} </Text>
+                        >{SleepHoursLeft} </Text>
                         <Text
                             style={Styles.SleepTimeLeftUnits}
                         >hr </Text>
                         <Text
                             style={Styles.SleepTimeLeftValues}
-                        >{RemainingSleepTime.Minute} </Text>
+                        >{SleepMinutesLeft} </Text>
                         <Text
                             style={Styles.SleepTimeLeftUnits}
                         >min</Text>
@@ -133,81 +228,27 @@ const HomeScreen = () => {
                 <FlatList
                     style={Styles.AlarmsList}
                     data={CombinedData}
-                    renderItem={({ item, index }) => (
-                        <View
-                            style={Styles.AlarmContainer}
-                        >
-                            <View
-                                style={Styles.FirstAlarmPart}
-                            >
-                                <LinearGradient
-                                    colors={item.EachActiveState ? ['#ECC9C0', '#A9C3E4', '#ACC3E2'] : ['#A8A8A8']}
-                                    locations={item.EachActiveState ? [0, 0.9999, 1] : [0]}
-                                    start={{
-                                        x: 0.5,
-                                        y: 0
-                                    }}
-                                    end={{
-                                        x: 0.5,
-                                        y: 1
-                                    }}
-                                    style={Styles.FirstAlarmPartGradient}
-                                >
-                                    <Image
-                                        source={item.Source}
-                                    />
-                                    <Ionicons
-                                        name="call"
-                                        size={24}
-                                    />
-                                </LinearGradient>
-                            </View>
-                            <View
-                                style={Styles.SecondAlarmPart}
-                            >
-                                <ImageBackground
-                                    source={item.EachActiveState ? require('../../assets/images/SecondBackground.png') : require('../../assets/images/ThirdBackground.png')}
-                                    style={Styles.SecondAlarmPartBackground}
-                                >
-                                    <View
-                                        style={Styles.SecondAlarmPartContentContainer}
-                                    >
-                                        <View
-                                            style={Styles.SecondAlarmPartTextsContainer}
-                                        >
-                                            <Text
-                                                style={Styles.RepetitionText}
-                                            >{HandleRepetition(item.EachRepetition)}</Text>
-                                            <Text
-                                                style={Styles.TimeText}
-                                            >{item.EachAlarmHour}:{item.EachAlarmMinute}</Text>
-                                            <Text
-                                                style={Styles.MissionText}
-                                            >Mission: {item.EachActiveState ? item.EachMission : ''}</Text>
-                                        </View>
-                                        <View
-                                            style={Styles.SecondAlarmPartSwitchContainer}
-                                        >
-                                            <Switch
-                                                trackColor={{
-                                                    false: Colors.OffSwitchTrack,
-                                                    true: Colors.Blue
-                                                }}
-                                                thumbColor={item.EachActiveState ? Colors.OnSwitchThumb : Colors.OffSwitchThumb}
-                                                onValueChange={() => ToggleSwitch(index)}
-                                                value={item.EachActiveState}
-                                            />
-                                        </View>
-                                    </View>
-                                </ImageBackground>
-                            </View>
-                        </View>
-                    )}
+                    renderItem={RenderItem}
                     contentContainerStyle={{
                         padding: 15,
                         rowGap: 15
                     }}
                 />
+                <View
+                    style={Styles.AddAlarmButtonContainer}
+                >
+                    <TouchableOpacity
+                        style={Styles.AddAlarmButton}
+                    >
+                        <Ionicons
+                            name="add"
+                            size={60}
+                            style={{
+                                marginLeft: 6
+                            }}
+                        />
+                    </TouchableOpacity>
+                </View>
             </View>
         </LinearGradient>
     )

@@ -31,7 +31,9 @@ const Styles = StyleSheet.create({
         fontSize: 36
     },
     AlarmsList: {
-        marginTop: 43
+        marginTop: 43,
+        maxHeight: '50%',
+        overflow: 'scroll'
     },
     AlarmContainer: {
         flexDirection: 'row'
@@ -97,6 +99,19 @@ const Styles = StyleSheet.create({
     MissionText: {
         fontFamily: Fonts.Regular,
         fontSize: 12
+    },
+    AddAlarmButtonContainer: {
+        flex: 1,
+        justifyContent: 'flex-end'
+    },
+    AddAlarmButton: {
+        alignItems: 'center',
+        backgroundColor: Colors.Yellow,
+        borderRadius: 100,
+        height: 75,
+        justifyContent: 'center',
+        marginBottom: '15%',
+        width: 75
     }
 })
 export default Styles
