@@ -14,6 +14,9 @@ const Colors = {
     Yellow: "#FFFD8C",
     WhiteIconContainer: "#FBFBFB",
     RedIconContainer: "#D72665",
-    BellIcon: "#C2F8FF"
+    BellIcon: "#C2F8FF",
+    OffSwitchTrack: "#D9D9D9",
+    OffSwitchThumb: "#A8A8A8",
+    OnSwitchThumb: "#FBF46D"
 }
 export { Fonts, Colors }

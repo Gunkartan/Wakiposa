@@ -8,6 +8,9 @@
       "expo-router"
     ],
     "name": "Wakiposa",
-    "slug": "Wakiposa"
+    "slug": "Wakiposa",
+    "android": {
+      "useNextNotificationsApi": true
+    }
   }
 }
