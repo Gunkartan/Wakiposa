@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
-import { SafeAreaView, ImageBackground } from "react-native";
+import { useEffect } from "react";
+import { SafeAreaView, ImageBackground, StatusBar } from "react-native";
 import WelcomeScreen from "../components/welcome/WelcomeScreen";
 import CallIntroductionScreen from "../components/introduction/CallIntroductionScreen";
 import TasksIntroductionScreen from "../components/introduction/TasksIntroductionScreen";
@@ -9,8 +10,12 @@ import RelationshipSelectionScreen from "../components/relationship/Relationship
 import FamilyMemberSelectionScreen from "../components/relationship/FamilyMemberSelectionScreen";
 import MissionSelectionScreen from "../components/mission/MissionSelectionScreen";
 import PermissionAskingScreen from "../components/permission/PermissionAskingScreen";
+import HomeScreen from "../components/main/HomeScreen";
 import Styles from "../constants/Styles";
 const Home = () => {
+    useEffect(() => {
+        StatusBar.setBarStyle('dark-content')
+    }, [])
     return (
         <SafeAreaView
             style={Styles.Container}
@@ -24,7 +29,7 @@ const Home = () => {
                         headerShown: false
                     }}
                 />
-                <PermissionAskingScreen />
+                <HomeScreen />
             </ImageBackground>
         </SafeAreaView>
     )
