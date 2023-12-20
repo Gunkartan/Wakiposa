@@ -5,6 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Styles from "./HomeScreenStyle";
 import { Colors } from "../../constants/Theme";
 import AddAlarmScreen from "./AddAlarmScreen";
+import EditAlarmScreen from "./EditAlarmScreen";
 const HomeScreen = () => {
     const TargetHour = 8
     const TargetMinute = 15
@@ -149,6 +150,7 @@ const HomeScreen = () => {
                 </View>
                 <TouchableOpacity
                     style={Styles.SecondAlarmPart}
+                    onPress={ToggleEditAlarmScreenModal}
                 >
                     <ImageBackground
                         source={item.EachActiveState ? require('../../assets/images/SecondBackground.png') : require('../../assets/images/ThirdBackground.png')}
@@ -192,6 +194,10 @@ const HomeScreen = () => {
     const [AddAlarmScreenVisibility, SetAddAlarmScreenVisibility] = useState(false)
     const ToggleAddAlarmScreenModal = () => {
         SetAddAlarmScreenVisibility(!AddAlarmScreenVisibility)
+    }
+    const [EditAlarmScreenVisibility, SetEditAlarmScreenVisibility] = useState(false)
+    const ToggleEditAlarmScreenModal = () => {
+        SetEditAlarmScreenVisibility(!EditAlarmScreenVisibility)
     }
     return (
         <LinearGradient
@@ -266,6 +272,15 @@ const HomeScreen = () => {
             >
                 <AddAlarmScreen
                     ModalClosingFunction={ToggleAddAlarmScreenModal}
+                />
+            </Modal>
+            <Modal
+                animationType='slide'
+                transparent={true}
+                visible={EditAlarmScreenVisibility}
+            >
+                <EditAlarmScreen
+                    ModalClosingFunction={ToggleEditAlarmScreenModal}
                 />
             </Modal>
         </LinearGradient>
