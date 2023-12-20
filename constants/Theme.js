@@ -17,6 +17,7 @@ const Colors = {
     BellIcon: "#C2F8FF",
     OffSwitchTrack: "#D9D9D9",
     OffSwitchThumb: "#A8A8A8",
-    OnSwitchThumb: "#FBF46D"
+    OnSwitchThumb: "#FBF46D",
+    InactiveRepetitionSelectionButtons: "#E7E7E7"
 }
 export { Fonts, Colors }

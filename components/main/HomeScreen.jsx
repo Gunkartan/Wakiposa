@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { View, Text, FlatList, Image, ImageBackground, Switch, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, Image, ImageBackground, Switch, TouchableOpacity, Modal } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Styles from "./HomeScreenStyle";
 import { Colors } from "../../constants/Theme";
+import AddAlarmScreen from "./AddAlarmScreen";
 const HomeScreen = () => {
     const TargetHour = 8
     const TargetMinute = 15
@@ -70,6 +71,7 @@ const HomeScreen = () => {
     const FindClosestActiveAlarm = () => {
         let ClosestAlarm = null
         CombinedData.forEach((item) => {
+
             if (item.EachActiveState) {
 
                 if (!ClosestAlarm || item.TimeRemaining.Hour < ClosestAlarm.TimeRemaining.Hour) {
@@ -79,6 +81,7 @@ const HomeScreen = () => {
                 }
 
             }
+
         })
         return ClosestAlarm
     }
@@ -100,6 +103,7 @@ const HomeScreen = () => {
         } else {
             return SelectedDays.join(', ')
         }
+
     }
     const ToggleSwitch = (Index) => {
         SetActiveState((PreviousStates) => {
@@ -185,6 +189,10 @@ const HomeScreen = () => {
             </View>
         )
     }
+    const [AddAlarmScreenVisibility, SetAddAlarmScreenVisibility] = useState(false)
+    const ToggleAddAlarmScreenModal = () => {
+        SetAddAlarmScreenVisibility(!AddAlarmScreenVisibility)
+    }
     return (
         <LinearGradient
             colors={['#7091F5', '#F4E0D5', '#EDD29C', '#7985C1', '#0B2069']}
@@ -239,6 +247,7 @@ const HomeScreen = () => {
                 >
                     <TouchableOpacity
                         style={Styles.AddAlarmButton}
+                        onPress={ToggleAddAlarmScreenModal}
                     >
                         <Ionicons
                             name="add"
@@ -250,6 +259,15 @@ const HomeScreen = () => {
                     </TouchableOpacity>
                 </View>
             </View>
+            <Modal
+                animationType='slide'
+                transparent={true}
+                visible={AddAlarmScreenVisibility}
+            >
+                <AddAlarmScreen
+                    ModalClosingFunction={ToggleAddAlarmScreenModal}
+                />
+            </Modal>
         </LinearGradient>
     )
 }
