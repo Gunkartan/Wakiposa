@@ -6,7 +6,7 @@ const Fonts = {
 }
 const Colors = {
     Black: "#000000",
-    Blue: "#7091F5",
+    Blue: "#7891f5",
     Cream: "#FFF7E9",
     LightBlue: "#97F3FF",
     Purple: "#998CEB",
