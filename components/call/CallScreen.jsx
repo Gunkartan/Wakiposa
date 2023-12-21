@@ -1,8 +1,26 @@
 import { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Audio } from "expo-av";
 import Styles from "./CallScreenStyle";
 const CallScreen = () => {
+    const [Sound, SetSound] = useState()
+    const [Volume, SetVolume] = useState(0.4)
+    const PlaySound = async () => {
+        const { sound } = await Audio.Sound.createAsync(
+            require('../../assets/audio/VolumeTest.wav')
+        )
+        SetSound(sound)
+        await sound.setVolumeAsync(Volume)
+        await sound.playAsync()
+    }
+    useEffect(() => {
+        PlaySound()
+        const Interval = setInterval(() => {
+            PlaySound()
+        }, 15000)
+        return () => clearInterval(Interval)
+    }, [])
     const [ElapsedTime, SetElapsedTime] = useState(0)
     useEffect(() => {
         const Timer = setInterval(() => {

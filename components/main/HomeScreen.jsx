@@ -3,9 +3,10 @@ import { View, Text, FlatList, Image, ImageBackground, Switch, TouchableOpacity,
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Styles from "./HomeScreenStyle";
-import { Colors } from "../../constants/Theme";
+import { Colors, Fonts } from "../../constants/Theme";
 import AddAlarmScreen from "./AddAlarmScreen";
 import EditAlarmScreen from "./EditAlarmScreen";
+import CallScreen from "../call/CallScreen";
 const HomeScreen = () => {
     const [CurrentHour, SetCurrentHour] = useState(new Date().getHours())
     const [CurrentMinute, SetCurrentMinute] = useState(new Date().getMinutes())
@@ -25,7 +26,11 @@ const HomeScreen = () => {
         }
 
         if (RemainingMinute < 0) {
-            RemainingHour -= 1
+            if (RemainingHour != 0) {
+                RemainingHour -= 1
+            } else {
+                RemainingHour = 23
+            }
             RemainingMinute += 60
         }
 
@@ -132,7 +137,7 @@ const HomeScreen = () => {
                 </View>
                 <TouchableOpacity
                     style={Styles.SecondAlarmPart}
-                    onPress={ToggleEditAlarmScreenModal}
+                    //onPress={ToggleEditAlarmScreenModal}
                 >
                     <ImageBackground
                         source={item.EachActiveState ? require('../../assets/images/SecondBackground.png') : require('../../assets/images/ThirdBackground.png')}
@@ -180,6 +185,10 @@ const HomeScreen = () => {
     const [EditAlarmScreenVisibility, SetEditAlarmScreenVisibility] = useState(false)
     const ToggleEditAlarmScreenModal = () => {
         SetEditAlarmScreenVisibility(!EditAlarmScreenVisibility)
+    }
+    const [CallScreenVisibility, SetCallScreenVisibility] = useState(false)
+    const ToggleCallScreenModal = () => {
+        SetCallScreenVisibility(!CallScreenVisibility)
     }
     return (
         <LinearGradient
@@ -230,6 +239,15 @@ const HomeScreen = () => {
                         rowGap: 15
                     }}
                 />
+                <TouchableOpacity
+                    onPress={ToggleCallScreenModal}
+                >
+                    <Text
+                        style={{
+                            fontFamily: Fonts.SemiBold
+                        }}
+                    >Open the call screen</Text>
+                </TouchableOpacity>
                 <View
                     style={Styles.AddAlarmButtonContainer}
                 >
@@ -255,7 +273,6 @@ const HomeScreen = () => {
                 <AddAlarmScreen
                     ModalClosingFunction={ToggleAddAlarmScreenModal}
                     AlarmAddingFunction={AddNewAlarm}
-                    RemainingSleepTimeCalculationFunction={CalculateRemainingSleepTime}
                 />
             </Modal>
             <Modal
@@ -265,6 +282,15 @@ const HomeScreen = () => {
             >
                 <EditAlarmScreen
                     ModalClosingFunction={ToggleEditAlarmScreenModal}
+                />
+            </Modal>
+            <Modal
+                animationType='slide'
+                transparent={true}
+                visible={CallScreenVisibility}
+            >
+                <CallScreen
+                    ModalClosingFunction={ToggleCallScreenModal}
                 />
             </Modal>
         </LinearGradient>

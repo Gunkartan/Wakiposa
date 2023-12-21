@@ -11,7 +11,6 @@ import FamilyMemberSelectionScreen from "../components/relationship/FamilyMember
 import MissionSelectionScreen from "../components/mission/MissionSelectionScreen";
 import PermissionAskingScreen from "../components/permission/PermissionAskingScreen";
 import HomeScreen from "../components/main/HomeScreen";
-import CallScreen from "../components/call/CallScreen";
 import Styles from "../constants/Styles";
 const Home = () => {
     useEffect(() => {

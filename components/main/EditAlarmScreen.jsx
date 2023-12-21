@@ -6,10 +6,29 @@ import { Audio } from "expo-av";
 import Slider from "@react-native-community/slider";
 import Styles from "./EditAlarmScreenStyle";
 import { Colors } from "../../constants/Theme";
-const EditAlarmScreen = ({ ModalClosingFunction }) => {
-    const [RepetitionDays, SetRepetitionDays] = useState('None')
-    const [Role, SetRole] = useState('Family, mother')
-    const [SnoozeTime, SetSnoozeTime] = useState(10)
+const EditAlarmScreen = ({ ModalClosingFunction, AlarmData, EditAlarmData, AlarmIndex }) => {
+    const [CurrentHour, SetCurrentHour] = useState(new Date().getHours())
+    const [CurrentMinute, SetCurrentMinute] = useState(new Date().getMinutes())
+    useEffect(() => {
+        const Interval = setInterval(() => {
+            SetCurrentHour(new Date().getHours())
+            SetCurrentMinute(new Date().getMinutes())
+        }, 1000)
+        return () => clearInterval(Interval)
+    }, [])
+    const [NewAlarmData, SetNewAlarmData] = useState({
+        Voice: 'Manly',
+        Role: 'Family, grandfather',
+        Source: require('../../assets/images/Grandfather.png'),
+        EachAlarmHour: String(0).padStart(2, '0'),
+        EachAlarmMinute: String(0).padStart(2, '0'),
+        EachAlarmHourInNumber: 0,
+        EachAlarmMinuteInNumber: 0,
+        EachRepetition: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+        EachMission: 'Walking',
+        Snooze: 10,
+        EachActiveState: false
+    })
     const [Sound, SetSound] = useState()
     const [Volume, SetVolume] = useState(0.4)
     const PlaySound = async () => {
@@ -71,11 +90,15 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
         ...EachMission,
         EachImage: MissionImages[Index].Image
     }))
+    const HandleMissionSelection = (Item) => {
+        SetSelectedMission(Item)
+        SetNewAlarmData(PreviousData => ({ ...PreviousData, EachMission: Item }))
+    }
     const RenderItemForMissions = ({ item }) => {
         return (
             <TouchableOpacity
                 style={Styles.MissionSelectionButtons(SelectedMission, item.Name)}
-                onPress={() => SetSelectedMission(item.Name)}
+                onPress={() => HandleMissionSelection(item.Name)}
             >
                 <Image
                     source={item.EachImage}
@@ -91,24 +114,46 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
         SetRepetitionModalVisibility(!RepetitionModalVisibility)
     }
     const [SelectedDays, SetSelectedDays] = useState([
-        { Id: 1, Selected: false, Day: 'S' },
-        { Id: 2, Selected: false, Day: 'M' },
-        { Id: 3, Selected: false, Day: 'T' },
-        { Id: 4, Selected: false, Day: 'W' },
-        { Id: 5, Selected: false, Day: 'T' },
-        { Id: 6, Selected: false, Day: 'F' },
-        { Id: 7, Selected: false, Day: 'S' },
+        { Id: 1, Selected: false, Day: 'S', Name: 'Sun' },
+        { Id: 2, Selected: false, Day: 'M', Name: 'Mon' },
+        { Id: 3, Selected: false, Day: 'T', Name: 'Tue' },
+        { Id: 4, Selected: false, Day: 'W', Name: 'Wed' },
+        { Id: 5, Selected: false, Day: 'T', Name: 'Thu' },
+        { Id: 6, Selected: false, Day: 'F', Name: 'Fri' },
+        { Id: 7, Selected: false, Day: 'S', Name: 'Sat' },
     ])
     const ToggleSelectedDay = (DayId) => {
         const UpdatedSelectedDay = SelectedDays.map((Day) => Day.Id === DayId ? { ...Day, Selected: !Day.Selected } : Day)
         SetSelectedDays(UpdatedSelectedDay)
+        const NewRepetitionArray = UpdatedSelectedDay.filter((Day) => Day.Selected).map((Day) => Day.Name)
+        SetNewAlarmData(PreviousData => ({ ...PreviousData, EachRepetition: NewRepetitionArray }))
     }
+    const HandleRepetitionForDisplay = (SelectedDays) => {
+        const DaysInAWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        const IsEveryday = DaysInAWeek.every(Item => SelectedDays.includes(Item))
+        const IsWeekends = SelectedDays.includes('Sat') && SelectedDays.includes('Sun') && SelectedDays.length === 2
+        const IsWeekdays = SelectedDays.includes('Mon') && SelectedDays.includes('Tue') && SelectedDays.includes('Wed') && SelectedDays.includes('Thu') && SelectedDays.includes('Fri') && SelectedDays.length === 5
+        
+        if (IsEveryday) {
+            return 'Everyday'
+        } else if (IsWeekends) {
+            return 'Weekends'
+        } else if (IsWeekdays) {
+            return 'Weekdays'
+        } else {
+            return SelectedDays.join(', ')
+        }
+        
+    }
+    const DisplayRepetition = HandleRepetitionForDisplay(NewAlarmData.EachRepetition)
     const SelectAllDays = () => {
         const UpdatedSelectedDays = SelectedDays.map((Day) => ({
             ...Day,
             Selected: true
         }))
         SetSelectedDays(UpdatedSelectedDays)
+        const NewRepetitionArray = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        SetNewAlarmData(PreviousData => ({ ...PreviousData, EachRepetition: NewRepetitionArray }))
     }
     const SelectWeekdays = () => {
         const UpdatedSelectedDays = SelectedDays.map((Day) => ({
@@ -116,6 +161,8 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
             Selected: Day.Id >= 2 && Day.Id <= 6
         }))
         SetSelectedDays(UpdatedSelectedDays)
+        const NewRepetitionArray = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+        SetNewAlarmData(PreviousData => ({ ...PreviousData, EachRepetition: NewRepetitionArray }))
     }
     const SelectWeekends = () => {
         const UpdatedSelectedDays = SelectedDays.map((Day) => ({
@@ -123,6 +170,8 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
             Selected: Day.Id == 1 || Day.Id == 7
         }))
         SetSelectedDays(UpdatedSelectedDays)
+        const NewRepetitionArray = ['Sun', 'Sat']
+        SetNewAlarmData(PreviousData => ({ ...PreviousData, EachRepetition: NewRepetitionArray }))
     }
     const RenderItemForAcronymicDays = ({ item }) => {
         return (
@@ -145,11 +194,15 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
         { Id: 1, Type: 'Manly' },
         { Id: 2, Type: 'Girly' }
     ]
+    const HandleVoiceSelection = (Item) => {
+        SetSelectedVoice(Item)
+        SetNewAlarmData(PreviousData => ({ ...PreviousData, Voice: Item }))
+    }
     const RenderItemForVoiceSelection = ({ item }) => {
         return (
             <TouchableOpacity
                 style={Styles.VoiceSelectionButtons(SelectedVoice, item.Type)}
-                onPress={() => SetSelectedVoice(item.Type)}
+                onPress={() => HandleVoiceSelection(item.Type)}
             >
                 <Text
                     style={Styles.VoiceSelectionTexts}
@@ -163,11 +216,44 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
         { Id: 2, Type: 'Friend' },
         { Id: 3, Type: 'Dating' }
     ]
+    const HandleRelationshipSelection = (Item) => {
+        SetSelectedRelationship(Item)
+        const SelectedRelationshipImage = FindImageSourceForRelationship(Item)
+        SetNewAlarmData(PreviousData => ({ ...PreviousData, Role: Item, Source: SelectedRelationshipImage }))
+    }
+    const HandleGuardianSelection = (Item, Type) => {
+        SetSelectedGuardian(Item)
+        const SelectedGuardianImage = FindImageSourceForRelationship(Item)
+        SetNewAlarmData(PreviousData => ({ ...PreviousData, Role: Type, Source: SelectedGuardianImage }))
+    }
+    const DisplayRelationship = NewAlarmData.Role
+    const FindImageSourceForRelationship = (Item) => {
+        switch (Item) {
+            case 'Grandfather':
+                return require('../../assets/images/Grandfather.png')
+            case 'Grandmother':
+                return require('../../assets/images/Grandmother.png')
+            case 'Father':
+                return require('../../assets/images/Father.png')
+            case 'Mother':
+                return require('../../assets/images/Mother.png')
+            case 'Brother':
+                return require('../../assets/images/Brother.png')
+            case 'Sister':
+                return require('../../assets/images/Sister.png')
+            case 'Friend':
+                return require('../../assets/images/Friend.png')
+            case 'Dating':
+                return require('../../assets/images/Dating.png')
+            default:
+                return require('../../assets/images/Grandfather.png')
+        }
+    }
     const RenderItemForRelationshipSelection = ({ item }) => {
         return (
             <TouchableOpacity
                 style={Styles.RelationshipSelectionButtons(SelectedRelationship, item.Type)}
-                onPress={() => SetSelectedRelationship(item.Type)}
+                onPress={() => HandleRelationshipSelection(item.Type)}
             >
                 <Text
                     style={Styles.RelationshipSelectionTexts}
@@ -177,22 +263,22 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
     }
     const [SelectedGuardian, SetSelectedGuardian] = useState('Grandfather')
     const FirstGuardianSet = [
-        { Id: 1, Member: 'Grandfather' },
-        { Id: 2, Member: 'Grandmother' }
+        { Id: 1, Member: 'Grandfather', Type: 'Family, grandfather' },
+        { Id: 2, Member: 'Grandmother', Type: 'Family, grandmother' }
     ]
     const SecondGuardianSet = [
-        { Id: 1, Member: 'Father' },
-        { Id: 2, Member: 'Mother' }
+        { Id: 1, Member: 'Father', Type: 'Family, father' },
+        { Id: 2, Member: 'Mother', Type: 'Family, mother' }
     ]
     const ThirdGuardianSet = [
-        { Id: 1, Member: 'Brother' },
-        { Id: 2, Member: 'Sister' }
+        { Id: 1, Member: 'Brother', Type: 'Family, brother' },
+        { Id: 2, Member: 'Sister', Type: 'Family, sister' }
     ]
     const RenderItemForFirstGuardianSet = ({ item }) => {
         return (
             <TouchableOpacity
                 style={Styles.FirstGuardianSelectionButtonSet(SelectedGuardian, item.Member)}
-                onPress={() => SetSelectedGuardian(item.Member)}
+                onPress={() => HandleGuardianSelection(item.Member, item.Type)}
             >
                 <Text
                     style={Styles.GuardianSelectionTexts}
@@ -204,7 +290,7 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
         return (
             <TouchableOpacity
                 style={Styles.SecondGuardianSelectionButtonSet(SelectedGuardian, item.Member)}
-                onPress={() => SetSelectedGuardian(item.Member)}
+                onPress={() => HandleGuardianSelection(item.Member, item.Type)}
             >
                 <Text
                     style={Styles.GuardianSelectionTexts}
@@ -216,7 +302,7 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
         return (
             <TouchableOpacity
                 style={Styles.SecondGuardianSelectionButtonSet(SelectedGuardian, item.Member)}
-                onPress={() => SetSelectedGuardian(item.Member)}
+                onPress={() => HandleGuardianSelection(item.Member, item.Type)}
             >
                 <Text
                     style={Styles.GuardianSelectionTexts}
@@ -239,11 +325,16 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
         { Id: 2, Time: 20 },
         { Id: 3, Time: 30 }
     ]
+    const HandleSnoozeSelection = (Item) => {
+        SetSelectedSnooze(Item)
+        SetNewAlarmData(PreviousData => ({ ...PreviousData, Snooze: Item }))
+    }
+    const DisplaySnooze = NewAlarmData.Snooze
     const RenderItemForFirstSnoozeSet = ({ item }) => {
         return (
             <TouchableOpacity
                 style={Styles.SnoozeSelectionButtons(SelectedSnooze, item.Time)}
-                onPress={() => SetSelectedSnooze(item.Time)}
+                onPress={() => HandleSnoozeSelection(item.Time)}
             >
                 <Text
                     style={Styles.SnoozeSelectionTexts}
@@ -255,13 +346,19 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
         return (
             <TouchableOpacity
                 style={Styles.SnoozeSelectionButtons(SelectedSnooze, item.Time)}
-                onPress={() => SetSelectedSnooze(item.Time)}
+                onPress={() => HandleSnoozeSelection(item.Time)}
             >
                 <Text
                     style={Styles.SnoozeSelectionTexts}
                 >{item.Time} min</Text>
             </TouchableOpacity>
         )
+    }
+    const HandleHourSelection = (Item) => {
+        SetNewAlarmData(PreviousData => ({ ...PreviousData, EachAlarmHour: String(Item).padStart(2, '0'), EachAlarmHourInNumber: Item }))
+    }
+    const HandleMinuteSelection = (Item) => {
+        SetNewAlarmData(PreviousData => ({ ...PreviousData, EachAlarmMinute: String(Item).padStart(2, '0'), EachAlarmMinuteInNumber: Item }))
     }
     return (
         <View
@@ -304,10 +401,11 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
                         decelerationRate='fast'
                         showsVerticalScrollIndicator={false}
                         snapToInterval={Styles.TimeItemContainer.height}
-                        onMomentumScrollEnd={(Event) => {
+                        onScroll={(Event) => {
                             const YOffset = Event.nativeEvent.contentOffset.y
                             const Index = Math.round(YOffset / 60)
                             SetSelectedHour(Hours[Index + 1])
+                            HandleHourSelection(SelectedHour)
                         }}
                     />
                     <FlatList
@@ -317,13 +415,17 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
                         decelerationRate='fast'
                         showsVerticalScrollIndicator={false}
                         snapToInterval={Styles.TimeItemContainer.height}
-                        onMomentumScrollEnd={(Event) => {
+                        onScroll={(Event) => {
                             const YOffset = Event.nativeEvent.contentOffset.y
                             const Index = Math.round(YOffset / 60)
                             SetSelectedMinute(Minutes[Index + 1])
+                            HandleMinuteSelection(SelectedMinute)
                         }}
                     />
                 </View>
+                <Text
+                    style={Styles.SelectedTimeIndicator}
+                >{SelectedHour}:{SelectedMinute}</Text>
                 <View
                     style={Styles.RepetitionContainer}
                 >
@@ -342,7 +444,7 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
                             >
                                 <Text
                                     style={Styles.RepetitionText}
-                                >{RepetitionDays}</Text>
+                                >{DisplayRepetition}</Text>
                                 <Ionicons
                                     name="chevron-forward"
                                     size={21}
@@ -409,7 +511,7 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
                     >
                         <Text
                             style={Styles.RoleIndicator}
-                        >{Role}</Text>
+                        >{DisplayRelationship}</Text>
                         <Ionicons
                             name="chevron-forward"
                             size={21}
@@ -428,7 +530,7 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
                     >
                         <Text
                             style={Styles.RoleIndicator}
-                        >{SnoozeTime} min</Text>
+                        >{DisplaySnooze} min</Text>
                         <Ionicons
                             name="chevron-forward"
                             size={21}
@@ -515,6 +617,7 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
                                 </View>
                                 <TouchableOpacity
                                     style={Styles.SaveButton}
+                                    onPress={ToggleRepetitionModal}
                                 >
                                     <Text
                                         style={Styles.SaveText}
@@ -605,6 +708,7 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
                                     </View>
                                     <TouchableOpacity
                                         style={Styles.SaveButton}
+                                        onPress={ToggleRoleModal}
                                     >
                                         <Text
                                             style={Styles.SaveText}
@@ -659,6 +763,7 @@ const EditAlarmScreen = ({ ModalClosingFunction }) => {
                                 </View>
                                 <TouchableOpacity
                                     style={Styles.SaveButton}
+                                    onPress={ToggleSnoozeModal}
                                 >
                                     <Text
                                         style={Styles.SaveText}

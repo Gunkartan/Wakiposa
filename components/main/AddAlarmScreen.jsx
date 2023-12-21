@@ -6,7 +6,7 @@ import { Audio } from "expo-av";
 import Slider from "@react-native-community/slider";
 import Styles from "./AddAlarmScreenStyle";
 import { Colors } from "../../constants/Theme";
-const AddAlarmScreen = ({ ModalClosingFunction, AlarmAddingFunction, RemainingSleepTimeCalculationFunction }) => {
+const AddAlarmScreen = ({ ModalClosingFunction, AlarmAddingFunction }) => {
     const [CurrentHour, SetCurrentHour] = useState(new Date().getHours())
     const [CurrentMinute, SetCurrentMinute] = useState(new Date().getMinutes())
     useEffect(() => {
@@ -27,8 +27,7 @@ const AddAlarmScreen = ({ ModalClosingFunction, AlarmAddingFunction, RemainingSl
         EachRepetition: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
         EachMission: 'Walking',
         Snooze: 10,
-        EachActiveState: false,
-        TimeRemaining: RemainingSleepTimeCalculationFunction(CurrentHour, CurrentMinute, 0, 0)
+        EachActiveState: false
     })
     const SubmitAlarm = () => {
         AlarmAddingFunction(NewAlarmData)
