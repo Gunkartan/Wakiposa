@@ -1,4 +1,5 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
+import { Link, router } from "expo-router";
 import Styles from "./TasksIntroductionScreenStyle";
 const TasksIntroductionScreen = () => {
     return (
@@ -16,19 +17,20 @@ const TasksIntroductionScreen = () => {
                 >you up</Text>
             </View>
             <Image
-                source={require('../../assets/images/Tasks.png')}
+                source={require('../../../assets/images/Tasks.png')}
                 style={Styles.TasksImage}
             />
             <View
                 style={Styles.ReadyButtonContainer}
             >
                 <TouchableOpacity
-                    style={Styles.ReadyButton}
+                    style={Styles.ReadyButton} onPress={() => router.replace('./TimeSet')}
                 >
                     <Text
                         style={Styles.ReadyText}
                     >Ready!</Text>
                 </TouchableOpacity>
+                {/* <Link href='/'>Go back</Link> */}
             </View>
         </View>
     )

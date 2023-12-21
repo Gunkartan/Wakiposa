@@ -1,5 +1,7 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import Styles from "./WelcomeScreenStyle";
+import TimeSettingScreen from "../time/TimeSettingScreen";
+import { Link, Stack, router, useGlobalSearchParams } from "expo-router";
 const WelcomeScreen = () => {
     return (
         <View
@@ -26,7 +28,7 @@ const WelcomeScreen = () => {
                 style={Styles.BabySunImageContainer}
             >
                 <Image
-                    source={require('../../assets/images/BabySun.gif')}
+                    source={require('../../../assets/images/BabySun.gif')}
                     style={Styles.BabySunImage}
                 />
             </View>
@@ -34,12 +36,13 @@ const WelcomeScreen = () => {
                 style={Styles.GetStartedButtonContainer}
             >
                 <TouchableOpacity
-                    style={Styles.GetStartedButton}
+                    style={Styles.GetStartedButton} onPress={() => {router.replace('/TimeSet')}}
                 >
                     <Text
                         style={Styles.GetStartedText}
                     >Get started</Text>
                 </TouchableOpacity>
+                {/* <Link style={Styles.GetStartedButton} href='/time/TimeSettingScreen'> Get Started </Link> */}
             </View>
         </View>
     )

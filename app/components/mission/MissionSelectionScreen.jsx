@@ -1,17 +1,46 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, FlatList } from "react-native";
-import Styles from "./RelationshipSelectionScreenStyle";
-const RelationshipSelectionScreen = () => {
-    const [SelectedRelationship, SetSelectedRelationship] = useState("Friend")
+import Styles from "./MissionSelectionScreenStyle";
+import { Link, router, useGlobalSearchParams, useLocalSearchParams } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+const MissionSelectionScreen = () => {
+    const [SelectedMission, SetSelectedMission] = useState("Walking")
+    const [SelectedRelationship, SetSelectedRelationship] = useState('')
+
     const TextData = [
-        { Id: '1', Text: 'Family' },
-        { Id: '2', Text: 'Friend' },
-        { Id: '3', Text: 'Dating' }
+        { Id: '1', Text: 'Walking' },
+        { Id: '2', Text: 'Math Questions' },
+        { Id: '3', Text: 'CAPTCHA' }
     ]
+
+    useEffect(() => {
+        load();
+    }, []);
+    
+    const load = async() => {
+        try{
+            AsyncStorage.getItem('Test')
+                .then(value => {
+                    if(value != null){
+                        SetSelectedRelationship(value);
+                    }
+                })
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    const saveMission = async() => {
+        try{
+            await AsyncStorage.setItem('Mission', SelectedMission);
+        }catch(error){
+            console.log(error);
+        }
+    }
     const ImageData = [
-        { Id: '1', Source: require('../../assets/images/Family.png') },
-        { Id: '2', Source: require('../../assets/images/Friend.png') },
-        { Id: '3', Source: require('../../assets/images/Dating.png') }
+        { Id: '1', Source: require('../../../assets/images/Walk.png') },
+        { Id: '2', Source: require('../../../assets/images/Mathematics.png') },
+        { Id: '3', Source: require('../../../assets/images/Captcha.png') },
     ]
     const CombinedData = TextData.map((EachText, Index) => ({
         ...EachText,
@@ -34,7 +63,7 @@ const RelationshipSelectionScreen = () => {
                     style={Styles.ActiveProgressIndicator}
                 ></View>
                 <View
-                    style={Styles.InactiveProgressIndicator}
+                    style={Styles.ActiveProgressIndicator}
                 ></View>
             </View>
             <View
@@ -42,22 +71,22 @@ const RelationshipSelectionScreen = () => {
             >
                 <Text
                     style={Styles.ScreenTitle}
-                >In which</Text>
+                >Choose the</Text>
                 <Text
                     style={Styles.ScreenTitle}
-                >relationship?</Text>
+                >wake-up mission</Text>
                 <FlatList
-                    style={Styles.RelationshipSelectionButtonsContainer}
+                    style={Styles.MissionSelectionButtonsContainer}
                     data={CombinedData}
                     renderItem={({ item }) => (
                         <TouchableOpacity
-                            style={Styles.RelationshipSelectionButtons(SelectedRelationship, item.Text)}
+                            style={Styles.MissionSelectionButtons(SelectedMission, item.Text)}
                             onPress={() => {
-                                SetSelectedRelationship(item.Text)
+                                SetSelectedMission(item.Text)
                             }}
                         >
                             <Text
-                                style={Styles.RelationshipSelectionTexts(SelectedRelationship, item.Text)}
+                                style={Styles.MissionSelectionTexts(SelectedMission, item.Text)}
                             >{item.Text}</Text>
                             <Image
                                 source={item.EachImage}
@@ -67,7 +96,7 @@ const RelationshipSelectionScreen = () => {
                     contentContainerStyle={{
                         flex: 1,
                         paddingLeft: 15,
-                        rowGap: 30
+                        rowGap: 31
                     }}
                     keyExtractor={(item) => item.Id}
                 />
@@ -76,7 +105,7 @@ const RelationshipSelectionScreen = () => {
                 style={Styles.NextButtonContainer}
             >
                 <TouchableOpacity
-                    style={Styles.NextButton}
+                    style={Styles.NextButton} onPress={() => {router.push('/Home'); saveMission();}}
                 >
                     <Text
                         style={Styles.NextText}
@@ -86,4 +115,4 @@ const RelationshipSelectionScreen = () => {
         </View>
     )
 }
-export default RelationshipSelectionScreen
+export default MissionSelectionScreen

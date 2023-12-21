@@ -1,9 +1,9 @@
 import { StyleSheet, Platform } from "react-native";
-import { Fonts, Colors } from "../../constants/Theme";
+import { Fonts, Colors } from "../../../constants/Theme";
 const Styles = StyleSheet.create({
     Container: {
         alignItems: 'center',
-        flex: 1,
+        flex: 1
     },
     ProgressIndicatorContainer: {
         flexDirection: 'row',
@@ -24,12 +24,15 @@ const Styles = StyleSheet.create({
         width: 84
     },
     ScreenTitleContainer: {
+        flex: 3,
+        paddingRight: 15,
         marginTop: '25%'
     },
     ScreenTitle: {
         color: Colors.White,
         fontFamily: Fonts.SemiBold,
         fontSize: 35,
+        paddingLeft: 15,
         textShadowColor: 'rgba(0, 0, 0, 0.25)',
         textShadowOffset: {
             height: 2,
@@ -37,27 +40,37 @@ const Styles = StyleSheet.create({
         },
         textShadowRadius: 4
     },
-    TimeSectionContainer: {
-        alignItems: 'center'
+    RelationshipSelectionButtonsContainer: {
+        marginTop: 48
     },
-    SelectedItemIndicator: {
-        backgroundColor: Colors.White,
-        borderRadius: 15,
-        height: 50,
-        position: 'absolute',
-        opacity: 0.6,
-        top: 150,
-        width: 283
-    },
-    TimeWheelContainer: {
-        borderColor: Colors.White,
+    RelationshipSelectionButtons: (SelectedRelationship, Item) => ({
+        alignItems: 'center',
         borderRadius: 20,
-        borderWidth: 1,
+        elevation: 4,
         flexDirection: 'row',
-        height: 180,
-        marginTop: 100,
-        width: 315
-    },
+        height: 59,
+        justifyContent: 'center',
+        width: 185,
+        backgroundColor: SelectedRelationship === Item ? Colors.Blue : Colors.White,
+        opacity: SelectedRelationship === Item ? 1 : 0.7,
+        ...Platform.select({
+            ios: {
+                shadowColor: 'rgba(0, 0, 0)',
+                shadowOffset: {
+                    height: 2,
+                    width: 1
+                },
+                shadowRadius: 4,
+                shadowOpacity: 0.25
+            }
+        })
+    }),
+    RelationshipSelectionTexts: (SelectedRelationship, Item) => ({
+        fontFamily: Fonts.Medium,
+        fontSize: 20,
+        marginRight: 15,
+        color: SelectedRelationship === Item ? Colors.White : Colors.Black
+    }),
     NextButtonContainer: {
         flex: 1,
         justifyContent: 'flex-end'
@@ -86,15 +99,6 @@ const Styles = StyleSheet.create({
     NextText: {
         fontFamily: Fonts.SemiBold,
         fontSize: 20
-    },
-    TimeItem: {
-        alignItems: 'center',
-        height: 50,
-        justifyContent: 'center'
-    },
-    TimeItemText: {
-        fontFamily: Fonts.Medium,
-        fontSize: 30
     }
 })
 export default Styles

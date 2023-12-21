@@ -1,4 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
+import { router } from 'expo-router';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as NotificationSystem from "expo-notifications";
 import Styles from "./PermissionAskingScreenStyle";
@@ -30,7 +31,7 @@ const PermissionAskingScreen = () => {
             </View>
             <TouchableOpacity
                 style={Styles.AllowButton}
-                onPress={PermissionAsking}
+                onPress={() => {PermissionAsking; router.push('/')}}
             >
                 <Text
                     style={Styles.ButtonsText}

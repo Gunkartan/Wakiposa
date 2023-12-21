@@ -1,5 +1,5 @@
 import { StyleSheet, Platform } from "react-native";
-import { Fonts, Colors } from "../../constants/Theme";
+import { Fonts, Colors } from "../../../constants/Theme";
 const Styles = StyleSheet.create({
     Container: {
         alignItems: 'center',
@@ -10,7 +10,7 @@ const Styles = StyleSheet.create({
         marginTop: '15%'
     },
     ActiveProgressIndicator: {
-        backgroundColor: Colors.Blue,
+        backgroundColor: Colors.Purple,
         borderRadius: 25,
         height: 8,
         marginHorizontal: 1,
@@ -24,15 +24,12 @@ const Styles = StyleSheet.create({
         width: 84
     },
     ScreenTitleContainer: {
-        flex: 3,
-        paddingRight: 15,
         marginTop: '25%'
     },
     ScreenTitle: {
         color: Colors.White,
         fontFamily: Fonts.SemiBold,
         fontSize: 35,
-        paddingLeft: 15,
         textShadowColor: 'rgba(0, 0, 0, 0.25)',
         textShadowOffset: {
             height: 2,
@@ -40,37 +37,29 @@ const Styles = StyleSheet.create({
         },
         textShadowRadius: 4
     },
-    RelationshipSelectionButtonsContainer: {
-        marginTop: 48
-    },
-    RelationshipSelectionButtons: (SelectedRelationship, Item) => ({
-        alignItems: 'center',
-        borderRadius: 20,
-        elevation: 4,
+    FamilyMembersContainer: {
         flexDirection: 'row',
-        height: 59,
+        marginTop: 33,
+        width: '100%'
+    },
+    FamilyMemberSelectionContainer: {
+        alignItems: 'center',
+        marginBottom: 42
+    },
+    FamilyMemberSelectionButtons: (SelectedFamilyMember, Item) => ({
+        alignItems: 'center',
+        borderRadius: 100,
+        height: 70,
         justifyContent: 'center',
-        width: 185,
-        backgroundColor: SelectedRelationship === Item ? Colors.Blue : Colors.White,
-        opacity: SelectedRelationship === Item ? 1 : 0.7,
-        ...Platform.select({
-            ios: {
-                shadowColor: 'rgba(0, 0, 0)',
-                shadowOffset: {
-                    height: 2,
-                    width: 1
-                },
-                shadowRadius: 4,
-                shadowOpacity: 0.25
-            }
-        })
+        marginHorizontal: '100%',
+        width: 70,
+        backgroundColor: SelectedFamilyMember === Item ? Colors.Blue : Colors.Cream
     }),
-    RelationshipSelectionTexts: (SelectedRelationship, Item) => ({
+    FamilyMemberSelectionTexts: {
         fontFamily: Fonts.Medium,
-        fontSize: 20,
-        marginRight: 15,
-        color: SelectedRelationship === Item ? Colors.White : Colors.Black
-    }),
+        fontSize: 18,
+        marginTop: 8
+    },
     NextButtonContainer: {
         flex: 1,
         justifyContent: 'flex-end'

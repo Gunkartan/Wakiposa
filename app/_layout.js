@@ -2,6 +2,8 @@ import { Stack } from "expo-router"
 import { useCallback } from "react"
 import { useFonts } from "expo-font"
 import * as SplashScreen from "expo-splash-screen"
+import { ImageBackground } from "react-native"
+import Styles from "../constants/Styles";
 SplashScreen.preventAutoHideAsync()
 const Layout = () => {
     const [FontsLoaded] = useFonts({
@@ -21,8 +23,11 @@ const Layout = () => {
     if (!FontsLoaded) return null
 
     return <Stack
-        OnLayout={OnLayoutRootView}
-    />
+            OnLayout={OnLayoutRootView} 
+            screenOptions={{
+                headerShown: false
+            }}
+        />
 
 }
 export default Layout

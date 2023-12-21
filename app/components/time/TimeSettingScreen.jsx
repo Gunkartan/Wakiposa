@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
+import { Stack, Link, router } from "expo-router";
+import { View, Text, TouchableOpacity, FlatList, ImageBackground } from "react-native";
 import Styles from "./TimeSettingScreenStyle";
-const TimeSettingScreen = () => {
+import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+const TimeSettingScreen = ({navigation}) => {
     const [SelectedHour, SetSelectedHour] = useState(0)
     const [SelectedMinute, SetSelectedMinute] = useState(0)
     const Hours = [''].concat(Array.from({ length: 24 }, (_, i) => i)).concat(' ').concat('  ')
@@ -30,10 +33,38 @@ const TimeSettingScreen = () => {
             </View>
         )
     }
+
+
+    const saveHour = async() => {
+        try{
+            await AsyncStorage.setItem('Hour', JSON.stringify(SelectedHour));
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    const saveMinute = async() => {
+        try{
+            await AsyncStorage.setItem('Minute', JSON.stringify(SelectedMinute));
+        }catch(error){
+            console.log(error);
+        }
+    }
+
     return (
+        // <SafeAreaView style={Styles.Container}>
+        // <ImageBackground
+        //         source={require('../../../assets/images/SecondBackground.png')}
+        //         style={Styles.ImageBackground}
+        //          >
         <View
             style={Styles.Container}
         >
+            {/* <Stack.Screen
+                    options={{
+                        headerShown: false
+                    }}
+                /> */}
             <View
                 style={Styles.ProgressIndicatorContainer}
             >
@@ -101,14 +132,18 @@ const TimeSettingScreen = () => {
                 style={Styles.NextButtonContainer}
             >
                 <TouchableOpacity
-                    style={Styles.NextButton}
+                    style={Styles.NextButton} onPress={() => {router.push('/Voice'); saveHour(); saveMinute();}}
                 >
                     <Text
                         style={Styles.NextText}
                     >Next</Text>
                 </TouchableOpacity>
+                <Text>{}</Text>
+                {/* <Link href='/'>Go back</Link> */}
             </View>
         </View>
+            //      </ImageBackground>
+            //  </SafeAreaView>
     )
 }
 export default TimeSettingScreen

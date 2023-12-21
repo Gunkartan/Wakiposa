@@ -1,9 +1,19 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import Styles from "./VoiceSelectionScreenStyle";
+import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const VoiceSelectionScreen = () => {
     const Voice = ["Girly", "Manly"]
     const [SelectedVoice, SetSelectedVoice] = useState("Girly")
+
+    const saveVoice = async() => {
+        try{
+            await AsyncStorage.setItem('voice', SelectedVoice);
+        }catch(error){
+            console.log(error);
+        }
+    }
     return (
         <View
             style={Styles.Container}
@@ -68,7 +78,7 @@ const VoiceSelectionScreen = () => {
                 style={Styles.NextButtonContainer}
             >
                 <TouchableOpacity
-                    style={Styles.NextButton}
+                    style={Styles.NextButton} onPress={() => {router.push('/Relationship'); saveVoice();}}
                 >
                     <Text
                         style={Styles.NextText}

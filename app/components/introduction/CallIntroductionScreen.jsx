@@ -37,7 +37,7 @@ const CallIntroductionScreen = () => {
                 >wake-up call</Text>
             </View>
             <Image
-                source={require('../../assets/images/Waki.gif')}
+                source={require('../../../assets/images/Waki.gif')}
                 style={Styles.WakiImage}
             />
             <Text

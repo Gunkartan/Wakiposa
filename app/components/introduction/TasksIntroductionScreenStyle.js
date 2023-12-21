@@ -1,5 +1,5 @@
 import { StyleSheet, Platform } from "react-native";
-import { Fonts, Colors } from "../../constants/Theme";
+import { Fonts, Colors } from "../../../constants/Theme";
 const Styles = StyleSheet.create({
     Container: {
         alignItems: 'center',

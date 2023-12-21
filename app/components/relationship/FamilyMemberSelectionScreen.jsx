@@ -1,17 +1,20 @@
-import { useState } from "react";
-import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
+import { useState, useEffect } from "react";
+import { View, Text, FlatList, Image, TouchableOpacity, ImageBackground, SafeAreaView } from "react-native";
 import Styles from "./FamilyMemberSelectionScreenStyle";
+import { router } from 'expo-router'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const FamilyMemberSelectionScreen = () => {
     const [SelectedFamilyMember, SetSelectedFamilyMember] = useState("Grandfather")
+    const [SelectedVoice, SetSelectedVoice] = useState();
     const FirstTextData = [
         { Id: '1', Text: 'Grandfather' },
         { Id: '2', Text: 'Father' },
         { Id: '3', Text: 'Brother' }
     ]
     const FirstImageData = [
-        { Id: '1', Source: require('../../assets/images/Grandfather.png') },
-        { Id: '2', Source: require('../../assets/images/Father.png') },
-        { Id: '3', Source: require('../../assets/images/Brother.png') }
+        { Id: '1', Source: require('../../../assets/images/Grandfather.png') },
+        { Id: '2', Source: require('../../../assets/images/Father.png') },
+        { Id: '3', Source: require('../../../assets/images/Brother.png') }
     ]
     const FirstCombinedData = FirstTextData.map((EachText, Index) => ({
         ...EachText,
@@ -23,15 +26,45 @@ const FamilyMemberSelectionScreen = () => {
         { Id: '3', Text: 'Sister' }
     ]
     const SecondImageData = [
-        { Id: '1', Source: require('../../assets/images/Grandmother.png') },
-        { Id: '2', Source: require('../../assets/images/Mother.png') },
-        { Id: '3', Source: require('../../assets/images/Sister.png') }
+        { Id: '1', Source: require('../../../assets/images/Grandmother.png') },
+        { Id: '2', Source: require('../../../assets/images/Mother.png') },
+        { Id: '3', Source: require('../../../assets/images/Sister.png') }
     ]
     const SecondCombinedData = SecondTextData.map((EachText, Index) => ({
         ...EachText,
         EachImage: SecondImageData[Index].Source
     }))
+
+    const saveFamily = async() => {
+        try{
+            await AsyncStorage.setItem('Family', SelectedFamilyMember);
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    const loadVoice = async() => {
+        try{
+            AsyncStorage.getItem('voice')
+                .then(value => {
+                    if(value != null){
+                        SetSelectedVoice(value);
+                    }
+                })
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        loadVoice();
+    }, []);
     return (
+        // <SafeAreaView style={Styles.Container}>
+        //  <ImageBackground
+        //          source={require('../../../assets/images/SecondBackground.png')}
+        //          style={Styles.ImageBackground}
+        //           >
         <View
             style={Styles.Container}
         >
@@ -112,7 +145,7 @@ const FamilyMemberSelectionScreen = () => {
                 style={Styles.NextButtonContainer}
             >
                 <TouchableOpacity
-                    style={Styles.NextButton}
+                    style={Styles.NextButton} onPress={() => {router.replace('/Mission'); saveFamily();}}
                 >
                     <Text
                         style={Styles.NextText}
@@ -120,6 +153,8 @@ const FamilyMemberSelectionScreen = () => {
                 </TouchableOpacity>
             </View>
         </View>
+        // </ImageBackground>
+        // </SafeAreaView>
     )
 }
 export default FamilyMemberSelectionScreen

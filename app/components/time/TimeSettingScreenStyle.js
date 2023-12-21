@@ -1,16 +1,16 @@
 import { StyleSheet, Platform } from "react-native";
-import { Fonts, Colors } from "../../constants/Theme";
+import { Fonts, Colors } from "../../../constants/Theme";
 const Styles = StyleSheet.create({
     Container: {
         alignItems: 'center',
-        flex: 1
+        flex: 1,
     },
     ProgressIndicatorContainer: {
         flexDirection: 'row',
         marginTop: '15%'
     },
     ActiveProgressIndicator: {
-        backgroundColor: Colors.Purple,
+        backgroundColor: Colors.Blue,
         borderRadius: 25,
         height: 8,
         marginHorizontal: 1,
@@ -37,28 +37,26 @@ const Styles = StyleSheet.create({
         },
         textShadowRadius: 4
     },
-    FamilyMembersContainer: {
+    TimeSectionContainer: {
+        alignItems: 'center'
+    },
+    SelectedItemIndicator: {
+        backgroundColor: Colors.White,
+        borderRadius: 15,
+        height: 50,
+        position: 'absolute',
+        opacity: 0.6,
+        top: 150,
+        width: 283
+    },
+    TimeWheelContainer: {
+        borderColor: Colors.White,
+        borderRadius: 20,
+        borderWidth: 1,
         flexDirection: 'row',
-        marginTop: 33,
-        width: '100%'
-    },
-    FamilyMemberSelectionContainer: {
-        alignItems: 'center',
-        marginBottom: 42
-    },
-    FamilyMemberSelectionButtons: (SelectedFamilyMember, Item) => ({
-        alignItems: 'center',
-        borderRadius: 100,
-        height: 70,
-        justifyContent: 'center',
-        marginHorizontal: '100%',
-        width: 70,
-        backgroundColor: SelectedFamilyMember === Item ? Colors.Blue : Colors.Cream
-    }),
-    FamilyMemberSelectionTexts: {
-        fontFamily: Fonts.Medium,
-        fontSize: 18,
-        marginTop: 8
+        height: 180,
+        marginTop: 100,
+        width: 315
     },
     NextButtonContainer: {
         flex: 1,
@@ -88,6 +86,18 @@ const Styles = StyleSheet.create({
     NextText: {
         fontFamily: Fonts.SemiBold,
         fontSize: 20
+    },
+    TimeItem: {
+        alignItems: 'center',
+        height: 50,
+        justifyContent: 'center'
+    },
+    TimeItemText: {
+        fontFamily: Fonts.Medium,
+        fontSize: 30
+    },
+    ImageBackground: {
+        height: '100%'
     }
 })
 export default Styles
