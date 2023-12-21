@@ -290,7 +290,7 @@ const HomeScreen = () => {
                 visible={CallScreenVisibility}
             >
                 <CallScreen
-                    ModalClosingFunction={ToggleCallScreenModal}
+                    ThirdModalClosingFunction={ToggleCallScreenModal}
                 />
             </Modal>
         </LinearGradient>

@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, Modal } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Audio } from "expo-av";
+import WalkMission from "../missionSystem/WalkMission";
 import Styles from "./CallScreenStyle";
-const CallScreen = () => {
+const CallScreen = ({ ThirdModalClosingFunction }) => {
+    const [WalkMissionScreenVisibility, SetWalkMissionScreenVisibility] = useState(false)
+    const ToggleWalkMissionModal = () => {
+        SetWalkMissionScreenVisibility(!WalkMissionScreenVisibility)
+    }
     const [Sound, SetSound] = useState()
     const [Volume, SetVolume] = useState(0.4)
     const PlaySound = async () => {
@@ -14,13 +19,13 @@ const CallScreen = () => {
         await sound.setVolumeAsync(Volume)
         await sound.playAsync()
     }
-    useEffect(() => {
+    /*useEffect(() => {
         PlaySound()
         const Interval = setInterval(() => {
             PlaySound()
         }, 15000)
         return () => clearInterval(Interval)
-    }, [])
+    }, [])*/
     const [ElapsedTime, SetElapsedTime] = useState(0)
     useEffect(() => {
         const Timer = setInterval(() => {
@@ -63,6 +68,7 @@ const CallScreen = () => {
                 </View>
                 <TouchableOpacity
                     style={Styles.WhiteIconContainers}
+                    onPress={ToggleWalkMissionModal}
                 >
                     <Ionicons
                         name="pause-outline"
@@ -71,6 +77,7 @@ const CallScreen = () => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={Styles.RedIconContainer}
+                    onPress={ToggleWalkMissionModal}
                 >
                     <Ionicons
                         name="close-outline"
@@ -78,6 +85,16 @@ const CallScreen = () => {
                     />
                 </TouchableOpacity>
             </View>
+            <Modal
+                animationType='slide'
+                transparent={true}
+                visible={WalkMissionScreenVisibility}
+            >
+                <WalkMission
+                    SecondModalClosingFunction={ToggleWalkMissionModal}
+                    ThirdModalClosingFunction={ThirdModalClosingFunction}
+                />
+            </Modal>
         </View>
     )
 }
