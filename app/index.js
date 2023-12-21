@@ -11,7 +11,10 @@ import FamilyMemberSelectionScreen from "../components/relationship/FamilyMember
 import MissionSelectionScreen from "../components/mission/MissionSelectionScreen";
 import PermissionAskingScreen from "../components/permission/PermissionAskingScreen";
 import HomeScreen from "../components/main/HomeScreen";
+import StepCounter from "../components/missionSystem/StepCounter";
+import WalkMission from "../components/missionSystem/WalkMission";
 import Styles from "../constants/Styles";
+
 const Home = () => {
     useEffect(() => {
         StatusBar.setBarStyle('dark-content')
@@ -29,7 +32,7 @@ const Home = () => {
                         headerShown: false
                     }}
                 />
-                <HomeScreen />
+                <StepCounter/>
             </ImageBackground>
         </SafeAreaView>
     )
