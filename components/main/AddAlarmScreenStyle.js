@@ -75,8 +75,8 @@ const Styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     RepetitionSelectionInnerContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center'
+        alignItems: 'center',
+        flexDirection: 'row'
     },
     RepeatText: {
         fontFamily: Fonts.SemiBold,
@@ -85,7 +85,7 @@ const Styles = StyleSheet.create({
     RepetitionText: {
         color: Colors.OffSwitchThumb,
         fontFamily: Fonts.Medium,
-        fontSize: 18
+        fontSize: 13
     },
     Divider: {
         alignSelf: 'center',
@@ -153,7 +153,7 @@ const Styles = StyleSheet.create({
     RoleIndicator: {
         color: Colors.OffSwitchThumb,
         fontFamily: Fonts.Medium,
-        fontSize: 18
+        fontSize: 17
     },
     SnoozeText: {
         fontFamily: Fonts.SemiBold,
@@ -301,7 +301,7 @@ const Styles = StyleSheet.create({
         backgroundColor: Colors.White,
         borderRadius: 25,
         elevation: 4,
-        height: 430,
+        height: 450,
         width: 345,
         ...Platform.select({
             ios: {
@@ -406,7 +406,7 @@ const Styles = StyleSheet.create({
         backgroundColor: Colors.White,
         borderRadius: 25,
         elevation: 4,
-        height: 215,
+        height: 225,
         width: 345,
         ...Platform.select({
             ios: {
@@ -443,6 +443,10 @@ const Styles = StyleSheet.create({
     SnoozeSelectionTexts: {
         fontFamily: Fonts.Medium,
         fontSize: 16
+    },
+    SelectedTimeIndicator: {
+        alignSelf: 'center',
+        fontFamily: Fonts.SemiBold
     }
 })
 export default Styles

@@ -7,8 +7,6 @@ import { Colors } from "../../constants/Theme";
 import AddAlarmScreen from "./AddAlarmScreen";
 import EditAlarmScreen from "./EditAlarmScreen";
 const HomeScreen = () => {
-    const TargetHour = 8
-    const TargetMinute = 15
     const [CurrentHour, SetCurrentHour] = useState(new Date().getHours())
     const [CurrentMinute, SetCurrentMinute] = useState(new Date().getMinutes())
     useEffect(() => {
@@ -36,39 +34,23 @@ const HomeScreen = () => {
             Minute: RemainingMinute
         }
     }
-    const RoleData = [
-        { Id: 1, Source: require('../../assets/images/Brother.png') },
-        { Id: 2, Source: require('../../assets/images/Friend.png') },
-        { Id: 3, Source: require('../../assets/images/Dating.png') },
-        { Id: 4, Source: require('../../assets/images/Father.png') }
-    ]
-    const AlarmData = [
-        { Id: 1, Hour: 8, Minute: 15, Repeat: ['Sun', 'Mon', 'Tue'] },
-        { Id: 2, Hour: 9, Minute: 25, Repeat: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] },
-        { Id: 3, Hour: 10, Minute: 30, Repeat: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'] },
-        { Id: 4, Hour: 11, Minute: 50, Repeat: ['Sun', 'Sat'] }
-    ]
-    const MissionData = [
-        { Id: 1, Mission: 'Walking' },
-        { Id: 2, Mission: 'Mathematics' },
-        { Id: 3, Mission: 'CAPTCHA' },
-        { Id: 4, Mission: 'Walking' }
-    ]
-    const [ActiveState, SetActiveState] = useState([
-        { Id: 1, State: false },
-        { Id: 2, State: false },
-        { Id: 3, State: false },
-        { Id: 4, State: false }
-    ])
-    const CombinedData = RoleData.map((EachRole, Index) => ({
-        ...EachRole,
-        EachAlarmHour: String(AlarmData[Index].Hour).padStart(2, '0'),
-        EachAlarmMinute: String(AlarmData[Index].Minute).padStart(2, '0'),
-        EachRepetition: AlarmData[Index].Repeat,
-        EachMission: MissionData[Index].Mission,
-        EachActiveState: ActiveState[Index].State,
-        TimeRemaining: CalculateRemainingSleepTime(CurrentHour, CurrentMinute, AlarmData[Index].Hour, AlarmData[Index].Minute)
-    }))
+    useEffect(() => {
+        SetCombinedData((PreviousData) => PreviousData.map((Item) => ({
+            ...Item,
+            TimeRemaining: CalculateRemainingSleepTime(CurrentHour, CurrentMinute, Item.EachAlarmHourInNumber, Item.EachAlarmMinuteInNumber)
+        })))
+    }, [CurrentHour, CurrentMinute, CombinedData])
+    const [CombinedData, SetCombinedData] = useState([])
+    const AddNewAlarm = (NewAlarmData) => {
+        SetCombinedData((PreviousData) => {
+            const NewData = [...PreviousData, NewAlarmData]
+            const UpdatedData = NewData.map((Item) => ({
+                ...Item,
+                TimeRemaining: CalculateRemainingSleepTime(CurrentHour, CurrentMinute, Item.EachAlarmHourInNumber, Item.EachAlarmMinuteInNumber)
+            }))
+            return UpdatedData
+        })
+    }
     const FindClosestActiveAlarm = () => {
         let ClosestAlarm = null
         CombinedData.forEach((item) => {
@@ -107,10 +89,10 @@ const HomeScreen = () => {
 
     }
     const ToggleSwitch = (Index) => {
-        SetActiveState((PreviousStates) => {
-            const NewStates = [...PreviousStates]
-            NewStates[Index].State = !NewStates[Index].State
-            return NewStates
+        SetCombinedData((Previous) => {
+            const New = [...Previous]
+            New[Index].EachActiveState = !New[Index].EachActiveState
+            return New
         })
     }
     const RenderItem = ({ item, index }) => {
@@ -272,6 +254,8 @@ const HomeScreen = () => {
             >
                 <AddAlarmScreen
                     ModalClosingFunction={ToggleAddAlarmScreenModal}
+                    AlarmAddingFunction={AddNewAlarm}
+                    RemainingSleepTimeCalculationFunction={CalculateRemainingSleepTime}
                 />
             </Modal>
             <Modal
