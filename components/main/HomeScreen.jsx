@@ -3,11 +3,14 @@ import { View, Text, FlatList, Image, ImageBackground, Switch, TouchableOpacity,
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Styles from "./HomeScreenStyle";
+import dayjs from "dayjs";
+import 'dayjs/locale/th'
 import { Colors, Fonts } from "../../constants/Theme";
 import AddAlarmScreen from "./AddAlarmScreen";
 import EditAlarmScreen from "./EditAlarmScreen";
 import CallScreen from "../call/CallScreen";
 const HomeScreen = () => {
+    const [ClosestAlarm, SetClosestAlarm] = useState(null)
     const [CurrentHour, SetCurrentHour] = useState(new Date().getHours())
     const [CurrentMinute, SetCurrentMinute] = useState(new Date().getMinutes())
     useEffect(() => {
@@ -291,6 +294,7 @@ const HomeScreen = () => {
             >
                 <CallScreen
                     ThirdModalClosingFunction={ToggleCallScreenModal}
+                    ClosestAlarm={ClosestActiveAlarm}
                 />
             </Modal>
         </LinearGradient>

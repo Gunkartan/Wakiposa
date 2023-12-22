@@ -27,6 +27,7 @@ const AddAlarmScreen = ({ ModalClosingFunction, AlarmAddingFunction }) => {
         EachRepetition: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
         EachMission: 'Walking',
         Snooze: 10,
+        Volume: 0.4,
         EachActiveState: false
     })
     const SubmitAlarm = () => {
@@ -45,6 +46,7 @@ const AddAlarmScreen = ({ ModalClosingFunction, AlarmAddingFunction }) => {
     }
     const HandleVolumeChange = (Value) => {
         SetVolume(Value)
+        SetNewAlarmData(PreviousData => ({ ...PreviousData, Volume: Value }))
 
         if (Sound) {
             Sound.setVolumeAsync(Value)

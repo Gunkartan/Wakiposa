@@ -4,28 +4,28 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Audio } from "expo-av";
 import WalkMission from "../missionSystem/WalkMission";
 import Styles from "./CallScreenStyle";
-const CallScreen = ({ ThirdModalClosingFunction }) => {
+const CallScreen = ({ ThirdModalClosingFunction, ClosestAlarm }) => {
     const [WalkMissionScreenVisibility, SetWalkMissionScreenVisibility] = useState(false)
     const ToggleWalkMissionModal = () => {
         SetWalkMissionScreenVisibility(!WalkMissionScreenVisibility)
     }
     const [Sound, SetSound] = useState()
-    const [Volume, SetVolume] = useState(0.4)
+    const Volume = ClosestAlarm.Volume
     const PlaySound = async () => {
         const { sound } = await Audio.Sound.createAsync(
-            require('../../assets/audio/VolumeTest.wav')
+            require('../../assets/audio/Grandfather.wav')
         )
         SetSound(sound)
         await sound.setVolumeAsync(Volume)
         await sound.playAsync()
     }
-    /*useEffect(() => {
+    useEffect(() => {
         PlaySound()
         const Interval = setInterval(() => {
             PlaySound()
         }, 15000)
         return () => clearInterval(Interval)
-    }, [])*/
+    }, [])
     const [ElapsedTime, SetElapsedTime] = useState(0)
     useEffect(() => {
         const Timer = setInterval(() => {
@@ -51,7 +51,7 @@ const CallScreen = ({ ThirdModalClosingFunction }) => {
             >In call with</Text>
             <Text
                 style={Styles.RoleText}
-            >Grandmother</Text>
+            >{ClosestAlarm?.Role}</Text>
             <Text
                 style={Styles.CallDuration}
             >{FormatTime(ElapsedTime)}</Text>
@@ -66,15 +66,14 @@ const CallScreen = ({ ThirdModalClosingFunction }) => {
                         size={36}
                     />
                 </View>
-                <TouchableOpacity
+                <View
                     style={Styles.WhiteIconContainers}
-                    onPress={ToggleWalkMissionModal}
                 >
                     <Ionicons
                         name="pause-outline"
                         size={36}
                     />
-                </TouchableOpacity>
+                </View>
                 <TouchableOpacity
                     style={Styles.RedIconContainer}
                     onPress={ToggleWalkMissionModal}
